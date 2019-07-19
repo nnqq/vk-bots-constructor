@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,8 +10,23 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/hapi__boom": "^7.4.0",
+    "@types/hapi__hapi": "^18.2.5",
+    "@types/hapi__inert": "^5.2.0",
+    "@types/hapi__joi": "^15.0.2",
+    "@types/hapi__vision": "^5.5.0",
+    "@types/joi": "^14.3.3",
+    "@types/mongoose": "^5.5.8",
+    "@types/nats-hemera": "^2.0.1",
+    "@types/node": "^12.6.8",
+    "@types/pino": "^5.8.8",
+    "@typescript-eslint/eslint-plugin": "^1.12.0",
+    "@typescript-eslint/parser": "^1.12.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.0"
-  }
+    "eslint-plugin-import": "^2.18.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {}
 }

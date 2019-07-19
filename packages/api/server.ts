@@ -1,12 +1,12 @@
-import Hapi from '@hapi/hapi';
+import { Server } from '@hapi/hapi';
 import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
 import HapiSwagger from 'hapi-swagger';
-import { logger } from '../lib/logger/index.js';
-import { usersRoutes } from './routes/users.js';
+import { logger } from '../lib/logger';
+import { usersRoutes } from './routes/users';
 
 const init = async () => {
-  const server = Hapi.server({
+  const server = new Server({
     port: 3000,
     host: '0.0.0.0',
   });
@@ -25,7 +25,7 @@ const init = async () => {
     {
       plugin: HapiSwagger,
       options: swaggerOptions,
-    },
+    } as any,
   ]);
 
   server.realm.modifiers.route.prefix = '/api';
@@ -36,11 +36,11 @@ const init = async () => {
   logger.info(`API server running on ${server.info.uri}`);
 };
 
-process.on('unhandledRejection', (e) => {
+process.on('unhandledRejection', (e: any) => {
   logger.error(e);
 });
 
-process.on('uncaughtException', (e) => {
+process.on('uncaughtException', (e: any) => {
   logger.error(e);
 });
 
