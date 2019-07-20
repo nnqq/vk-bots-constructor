@@ -1,5 +1,7 @@
 import Nats from 'nats';
 import Hemera from 'nats-hemera';
+import Boom from '@hapi/boom';
+import { logger } from './logger';
 
 export interface IHemeraPath {
   topic: string;
@@ -12,19 +14,25 @@ class HemeraBase extends Hemera<any, any> {
   }
 
   async send(path: IHemeraPath, params: object): Promise<any> {
-    const props = {
-      ...path,
-      params,
-    };
-    const response = await super.act(props);
+    try {
+      const props = {
+        ...path,
+        params,
+      };
+      const response = await super.act(props);
 
-    return response.data;
+      return response.data;
+    } catch (e) {
+      logger.error(e);
+      throw Boom.badRequest(e.message);
+    }
   }
 }
 
 const nats = Nats.connect('nats://0.0.0.0:4222');
 
 export const hemera = new HemeraBase(nats, {
+  timeout: 5000,
   logLevel: 'info',
   prettyLog: process.env.NODE_ENV === 'development',
 });
