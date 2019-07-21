@@ -25,7 +25,7 @@ const init = async () => {
     securityDefinitions: {
       Bearer: {
         type: 'apiKey',
-        description: 'Your authorization "Bearer token" string',
+        description: 'Your token. Paste "Bearer XXXX-XXXX-XXXX-XXXX"',
         name: 'Authorization',
         in: 'header',
       },

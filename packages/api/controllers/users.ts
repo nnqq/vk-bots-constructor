@@ -1,8 +1,8 @@
-import Hapi from '@hapi/hapi';
+import { Request } from '@hapi/hapi';
 import { users } from '../../users/client';
 
 export const controllers = {
-  registerUser(req: Hapi.Request) {
+  registerUser(req: Request) {
     if (Array.isArray(req.query.code)) {
       throw new Error('Code can\'t be an Array');
     }

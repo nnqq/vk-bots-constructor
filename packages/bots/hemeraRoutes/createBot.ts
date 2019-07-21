@@ -1,29 +1,27 @@
-import { stringify } from 'querystring';
 import fetch from 'node-fetch';
+import { stringify } from 'querystring';
 import { IHemeraPath } from '../../lib/hemera';
 import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
+import { Vk } from '../../lib/Vk';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '../constants';
-import { db } from '../database/client';
 import { IOAuthError, isOAuthError } from '../../lib/helpers';
 
 export const path: IHemeraPath = {
-  topic: 'users',
-  cmd: 'register',
+  topic: 'bots',
+  cmd: 'createBot',
 };
 
 export interface IParams {
   code: string;
 }
 
-export interface IResponse {
-  token: string;
-}
+// TODO fix any
+export type IResponse = any;
 
 interface IOAuthSuccess {
   /* eslint-disable camelcase */
-  access_token: string;
+  access_token_XXXX: string; // access_token_XXXX where XXXX is groupId
   expires_in: number;
-  user_id: number;
   /* eslint-enable camelcase */
 }
 
@@ -32,14 +30,14 @@ type IOAuthResponse = IOAuthSuccess | IOAuthError;
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
   const { code } = params;
 
-  const query = stringify({
+  const qs = stringify({
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
     redirect_uri: REDIRECT_URI,
     code,
   });
 
-  const raw = await fetch(`https://oauth.vk.com/access_token?${query}`);
+  const raw = await fetch(`https://oauth.vk.com/access_token?${qs}`);
 
   const oAuthResponse: IOAuthResponse = await raw.json();
 
@@ -47,28 +45,21 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
     throw new Error(oAuthResponse.error_description);
   }
 
-  const user = await db.users.findOne({
-    vkId: oAuthResponse.user_id,
-  }).lean();
+  delete oAuthResponse.expires_in;
 
-  if (user) {
-    await db.users.updateOne({
-      vkId: oAuthResponse.user_id,
-    }, {
-      vkUserAccessToken: oAuthResponse.access_token,
-    });
+  const [accessTokenXxxx, token] = Object.entries(oAuthResponse)[0][0];
 
-    return {
-      token: user.token,
-    };
-  }
+  const groupId = accessTokenXxxx.split('_').slice(-1);
 
-  const newUser = await db.users.create({
-    vkUserAccessToken: oAuthResponse.access_token,
-    vkId: oAuthResponse.user_id,
+  // TODO подумать где хранить токены групп, в базе рядом с юзером или в тарантуле
+
+  const vk = new Vk({
+    token,
   });
 
-  return {
-    token: newUser.token,
-  };
+  await Promise.all([
+    vk.api('groups.addCallbackServer', {
+
+    })
+  ]);
 });
