@@ -5,6 +5,7 @@ import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '../constants';
 import { db } from '../database/client';
 import { IOAuthError, isOAuthError } from '../../lib/helpers';
+import { logger } from '../../lib/logger';
 
 export const path: IHemeraPath = {
   topic: 'users',
@@ -44,16 +45,17 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
   const oAuthResponse: IOAuthResponse = await raw.json();
 
   if (isOAuthError(oAuthResponse)) {
+    logger.error(oAuthResponse);
     throw new Error(oAuthResponse.error_description);
   }
 
   const user = await db.users.findOne({
-    vkId: oAuthResponse.user_id,
+    vkUserId: oAuthResponse.user_id,
   }).lean();
 
   if (user) {
     await db.users.updateOne({
-      vkId: oAuthResponse.user_id,
+      vkUserId: oAuthResponse.user_id,
     }, {
       vkUserAccessToken: oAuthResponse.access_token,
     });
@@ -65,7 +67,7 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
 
   const newUser = await db.users.create({
     vkUserAccessToken: oAuthResponse.access_token,
-    vkId: oAuthResponse.user_id,
+    vkUserId: oAuthResponse.user_id,
   });
 
   return {

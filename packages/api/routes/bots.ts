@@ -17,15 +17,12 @@ export const botsRoutes: ServerRoute[] = [
   },
 
   {
-    method: 'POST',
+    method: 'GET',
     path: '/bots/create',
     options: {
       tags: ['api', 'bots'],
-      description: 'Create new bot in group',
+      description: 'Callback for VK OAuth',
       handler: controllers.createBot,
-      auth: {
-        strategy: 'user',
-      },
       validate: {
         query: {
           code: Joi.string().required(),

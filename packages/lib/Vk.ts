@@ -1,5 +1,6 @@
 import { stringify } from 'querystring';
 import fetch from 'node-fetch';
+import { logger } from './logger';
 
 interface IConstructor {
   token: string;
@@ -57,11 +58,14 @@ export class Vk {
       v: this.v,
     });
 
-    const raw = await fetch(`https://api.vk.com/method/${method}?${qs}`);
+    const raw = await fetch(`https://api.vk.com/method/${method}?${qs}`, {
+      method: 'POST',
+    });
 
     const res: IVkResponse = await raw.json();
 
     if (isVkError(res)) {
+      logger.error(res);
       throw new Error(res.error.error_msg);
     }
 

@@ -14,7 +14,7 @@ export const userSchema = new Schema({
     type: String,
     required: true,
   },
-  vkId: {
+  vkUserId: {
     type: Number,
     required: true,
   },

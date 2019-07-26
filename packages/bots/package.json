@@ -11,6 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.6.5",
+    "node-fetch": "^2.6.0",
+    "node-vk-bot-api": "^2.4.11",
+    "uuid": "^3.3.2"
   }
 }

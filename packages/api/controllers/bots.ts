@@ -5,6 +5,7 @@ export const controllers = {
   getGroups(req: Request) {
     // @ts-ignore
     const { vkUserAccessToken } = req.auth.credentials;
+
     return bots.getGroups({
       vkUserAccessToken,
     });

@@ -10,7 +10,7 @@ import { authUser } from './auth/authUser';
 
 const init = async () => {
   const server = new Server({
-    port: 3000,
+    port: 4000,
     host: '127.0.0.1',
   });
 
