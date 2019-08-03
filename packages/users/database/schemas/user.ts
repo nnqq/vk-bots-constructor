@@ -18,4 +18,7 @@ export const userSchema = new Schema({
     type: Number,
     required: true,
   },
+  botIds: [String],
+}, {
+  timestamps: true,
 });

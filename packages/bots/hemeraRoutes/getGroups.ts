@@ -11,12 +11,9 @@ export interface IParams {
   vkUserAccessToken: string;
 }
 
-// TODO fix any
-export type IResponse = any;
-
-interface IGroupsGetResponse {
+export interface IResponse {
   count: number;
-  items: string[];
+  items: number[];
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
@@ -26,10 +23,8 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
     token: vkUserAccessToken,
   });
 
-  const groupsGetResponse: IGroupsGetResponse = await vk.api('groups.get', {
+  return vk.api('groups.get', {
     filter: 'admin',
     count: 1000,
   });
-
-  return groupsGetResponse;
 });

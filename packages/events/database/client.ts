@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { MONGO_URI } from '../constants';
-import { botSchema } from './schemas/bot';
+import { eventSchema } from './schemas/event';
 
 // TODO на проде добавить autoIndex: false
 if (MONGO_URI) {
@@ -9,15 +9,16 @@ if (MONGO_URI) {
   });
 }
 
-export interface IBot extends mongoose.Document {
+export interface IEvent extends mongoose.Document {
+  eventId: string;
   botId: string;
-  vkGroupId: number;
-  secret: string;
+  trigger: string;
+  message: string;
   isEnabled: boolean;
 }
 
 export const db: {
-  bots: mongoose.Model<IBot>,
+  events: mongoose.Model<IEvent>,
 } = {
-  bots: mongoose.model('Bot', botSchema),
+  events: mongoose.model('Event', eventSchema),
 };

@@ -4,9 +4,11 @@ import Vision from '@hapi/vision';
 import HapiSwagger from 'hapi-swagger';
 import hapiAuthBearerToken from 'hapi-auth-bearer-token';
 import { logger } from '../lib/logger';
+import { authUser } from './auth/authUser';
+import { authAccessBot } from './auth/authAccessBot';
 import { usersRoutes } from './routes/users';
 import { botsRoutes } from './routes/bots';
-import { authUser } from './auth/authUser';
+import { eventsRoutes } from './routes/events';
 
 const init = async () => {
   const server = new Server({
@@ -45,10 +47,11 @@ const init = async () => {
   ]);
 
   authUser(server);
+  authAccessBot(server);
 
   server.realm.modifiers.route.prefix = '/api';
 
-  server.route([...usersRoutes, ...botsRoutes]);
+  server.route([...usersRoutes, ...botsRoutes, ...eventsRoutes]);
 
   await server.start();
   logger.info(`API server running on ${server.info.uri}`);

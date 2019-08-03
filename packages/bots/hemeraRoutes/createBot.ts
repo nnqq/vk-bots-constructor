@@ -6,11 +6,12 @@ import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
 import { Vk } from '../../lib/Vk';
 import {
   CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, DOMAIN,
-} from '../helpers/constants';
+} from '../constants';
 import { IOAuthError, isOAuthError } from '../../lib/helpers';
 import { db } from '../database/client';
 import { logger } from '../../lib/logger';
 import { botFather } from '../helpers/BotFather';
+import { users } from '../../users/client';
 
 export const path: IHemeraPath = {
   topic: 'bots',
@@ -30,6 +31,7 @@ interface IOAuthSuccess {
   access_token_XXXX: string; // access_token_XXXX where XXXX is groupId
   expires_in: number;
   /* eslint-enable camelcase */
+  state: string; // userId
 }
 
 type IOAuthResponse = IOAuthSuccess | IOAuthError;
@@ -113,6 +115,10 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
       vkGroupAccessToken: token,
       secret,
       confirmation: confirmation.code,
+    }),
+    users.addBot({
+      userId: oAuthResponse.state,
+      botId,
     }),
   ]);
 

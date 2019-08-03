@@ -1,24 +1,21 @@
 import { Schema } from 'mongoose';
 import uuidv4 from 'uuid/v4';
 
-export const botSchema = new Schema({
-  botId: {
+export const eventSchema = new Schema({
+  eventId: {
     type: String,
     default: uuidv4,
   },
-  vkGroupId: {
-    type: Number,
-    required: true,
-  },
-  vkGroupAccessToken: {
+  botId: {
     type: String,
     required: true,
   },
-  secret: {
+  trigger: {
     type: String,
+    enum: ['message_allow', 'message_deny', 'group_join', 'group_leave'],
     required: true,
   },
-  confirmation: {
+  message: {
     type: String,
     required: true,
   },
