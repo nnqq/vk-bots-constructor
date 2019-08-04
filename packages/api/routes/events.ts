@@ -1,6 +1,7 @@
 import { ServerRoute } from '@hapi/hapi';
 import Joi from '@hapi/joi';
 import { controllers } from '../controllers/events';
+import { TRIGGERS } from '../constants';
 
 export const eventsRoutes: ServerRoute[] = [
   {
@@ -16,7 +17,7 @@ export const eventsRoutes: ServerRoute[] = [
       validate: {
         payload: {
           botId: Joi.string().required(),
-          trigger: Joi.string().valid(['message_allow', 'message_deny', 'group_join', 'group_leave']).required(),
+          trigger: Joi.string().valid(TRIGGERS).required(),
           message: Joi.string().required(),
         },
       },
@@ -55,7 +56,7 @@ export const eventsRoutes: ServerRoute[] = [
         payload: {
           botId: Joi.string().required(),
           eventId: Joi.string().required(),
-          trigger: Joi.string().valid(['message_allow', 'message_deny', 'group_join', 'group_leave']),
+          trigger: Joi.string().valid(TRIGGERS),
           message: Joi.string(),
           isEnabled: Joi.boolean(),
         },
