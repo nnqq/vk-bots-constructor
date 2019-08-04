@@ -12,8 +12,8 @@ import { eventsRoutes } from './routes/events';
 
 const init = async () => {
   const server = new Server({
-    port: 4000,
-    host: '127.0.0.1',
+    port: process.env.PORT || 4000,
+    host: process.env.HOST || '127.0.0.1',
   });
 
   const swaggerOptions = {

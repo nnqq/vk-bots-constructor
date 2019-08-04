@@ -5,23 +5,30 @@ import { EnumTriggers } from '../interfaces';
 
 export const path: IHemeraPath = {
   topic: 'events',
-  cmd: 'createEvent',
+  cmd: 'editEvent',
 };
 
 export interface IParams {
   botId: string;
-  trigger: EnumTriggers;
-  message: string;
+  eventId: string;
+  trigger?: EnumTriggers;
+  message?: string;
+  isEnabled?: boolean;
 }
 
 export interface IResponse {
-  eventId: string;
+  updatedCount: number;
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
-  const { eventId } = await db.events.create(params);
+  const { botId, eventId, ...updateFields } = params;
+
+  const { nModified } = await db.events.updateOne({
+    botId,
+    eventId,
+  }, updateFields);
 
   return {
-    eventId,
+    updatedCount: nModified,
   };
 });

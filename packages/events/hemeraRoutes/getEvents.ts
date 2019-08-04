@@ -1,27 +1,32 @@
 import { IHemeraPath } from '../../lib/hemera';
 import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
-import { db } from '../database/client';
-import { EnumTriggers } from '../interfaces';
+import { db, IEvent } from '../database/client';
 
 export const path: IHemeraPath = {
   topic: 'events',
-  cmd: 'createEvent',
+  cmd: 'getEvents',
 };
 
 export interface IParams {
-  botId: string;
-  trigger: EnumTriggers;
-  message: string;
+  botId?: string;
 }
 
 export interface IResponse {
-  eventId: string;
+  events: IEvent[];
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
-  const { eventId } = await db.events.create(params);
+  const { botId } = params;
+
+  const query: IParams = {};
+
+  if (botId) {
+    query.botId = botId;
+  }
+
+  const events = await db.events.find(query, ['-_id', '-__v']);
 
   return {
-    eventId,
+    events,
   };
 });

@@ -48,5 +48,18 @@ module.exports = {
         NODE_ENV: 'production',
       },
     },
+
+    {
+      name: 'events',
+      script: './packages/events/server.ts',
+      watch: true,
+      env: {
+        NODE_ENV: 'development',
+        MONGO_URI: 'mongodb://localhost:27017/vkbc-events',
+      },
+      env_production: {
+        NODE_ENV: 'production',
+      },
+    },
   ],
 };

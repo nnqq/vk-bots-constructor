@@ -1,27 +1,34 @@
 import { IHemeraPath } from '../../lib/hemera';
 import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
 import { db } from '../database/client';
-import { EnumTriggers } from '../interfaces';
 
 export const path: IHemeraPath = {
   topic: 'events',
-  cmd: 'createEvent',
+  cmd: 'deleteEvent',
 };
 
 export interface IParams {
   botId: string;
-  trigger: EnumTriggers;
-  message: string;
-}
-
-export interface IResponse {
   eventId: string;
 }
 
+export interface IResponse {
+  deletedCount: number;
+}
+
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
-  const { eventId } = await db.events.create(params);
+  const { botId, eventId } = params;
+
+  const { n } = await db.events.deleteOne({
+    botId,
+    eventId,
+  });
+
+  if (typeof n === 'undefined') {
+    throw new Error('Can\'t delete Event');
+  }
 
   return {
-    eventId,
+    deletedCount: n,
   };
 });

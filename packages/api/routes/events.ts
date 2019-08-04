@@ -22,4 +22,63 @@ export const eventsRoutes: ServerRoute[] = [
       },
     },
   },
+
+  {
+    method: 'GET',
+    path: '/events',
+    options: {
+      tags: ['api', 'events'],
+      description: 'Get Events list of a Bot',
+      handler: controllers.getEvents,
+      auth: {
+        strategy: 'accessBot',
+      },
+      validate: {
+        query: {
+          botId: Joi.string().required(),
+        },
+      },
+    },
+  },
+
+  {
+    method: 'PUT',
+    path: '/events',
+    options: {
+      tags: ['api', 'events'],
+      description: 'Edit Event of a Bot',
+      handler: controllers.editEvent,
+      auth: {
+        strategy: 'accessBot',
+      },
+      validate: {
+        payload: {
+          botId: Joi.string().required(),
+          eventId: Joi.string().required(),
+          trigger: Joi.string().valid(['message_allow', 'message_deny', 'group_join', 'group_leave']),
+          message: Joi.string(),
+          isEnabled: Joi.boolean(),
+        },
+      },
+    },
+  },
+
+  {
+    method: 'DELETE',
+    path: '/events',
+    options: {
+      tags: ['api', 'events'],
+      description: 'Delete Event of a Bot',
+      handler: controllers.deleteEvent,
+      auth: {
+        strategy: 'accessBot',
+      },
+      validate: {
+        payload: {
+          botId: Joi.string().required(),
+          eventId: Joi.string().required(),
+        },
+      },
+    },
+  },
 ];

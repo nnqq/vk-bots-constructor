@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { MONGO_URI } from '../constants';
 import { eventSchema } from './schemas/event';
+import { EnumTriggers } from '../interfaces';
 
 // TODO на проде добавить autoIndex: false
 if (MONGO_URI) {
@@ -12,7 +13,7 @@ if (MONGO_URI) {
 export interface IEvent extends mongoose.Document {
   eventId: string;
   botId: string;
-  trigger: string;
+  trigger: EnumTriggers;
   message: string;
   isEnabled: boolean;
 }

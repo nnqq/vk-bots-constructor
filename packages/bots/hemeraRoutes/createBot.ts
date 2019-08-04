@@ -127,6 +127,7 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
     server_id: newCallbackServer.server_id,
     api_version: '5.101',
     message_new: 1,
+
   });
 
   return {
