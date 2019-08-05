@@ -20,7 +20,7 @@ export interface IResponse {
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
   const { token, botId } = params;
 
-  const user = await db.users.findOne({ token }, ['-_id', '-__v']);
+  const user = await db.users.findOne({ token }, ['-_id', '-__v']).lean();
 
   if (user && user.botIds.includes(botId)) {
     return {

@@ -24,7 +24,7 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
     query.botId = botId;
   }
 
-  const events = await db.events.find(query, ['-_id', '-__v']);
+  const events = await db.events.find(query, ['-_id', '-__v']).lean();
 
   return {
     events,
