@@ -19,7 +19,7 @@ export const eventsRoutes: ServerRoute[] = [
           botId: Joi.string().required(),
           trigger: Joi.string().valid(TRIGGERS).required(),
           message: Joi.string().required(),
-          isEnabled: Joi.boolean(),
+          isEnabled: Joi.boolean().default(true),
         },
       },
     },
