@@ -19,6 +19,7 @@ export const eventsRoutes: ServerRoute[] = [
           botId: Joi.string().required(),
           trigger: Joi.string().valid(TRIGGERS).required(),
           message: Joi.string().required(),
+          isEnabled: Joi.boolean(),
         },
       },
     },
@@ -53,13 +54,14 @@ export const eventsRoutes: ServerRoute[] = [
         strategy: 'accessBot',
       },
       validate: {
-        payload: {
-          botId: Joi.string().required(),
-          eventId: Joi.string().required(),
+        payload: Joi.object({
+          botId: Joi.string(),
+          eventId: Joi.string(),
           trigger: Joi.string().valid(TRIGGERS),
           message: Joi.string(),
           isEnabled: Joi.boolean(),
-        },
+        }).requiredKeys('botId', 'eventId')
+          .or('trigger', 'message', 'isEnabled'),
       },
     },
   },

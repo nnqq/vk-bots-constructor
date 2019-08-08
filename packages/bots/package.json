@@ -2,7 +2,7 @@
   "name": "bots",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
     "build": "../../node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"

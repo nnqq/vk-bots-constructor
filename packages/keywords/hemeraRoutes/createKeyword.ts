@@ -1,28 +1,30 @@
 import { IHemeraPath } from '../../lib/hemera';
 import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
 import { db } from '../database/client';
-import { EnumTriggers } from '../interfaces';
+import { EnumKeywordRules } from '../interfaces';
 
 export const path: IHemeraPath = {
-  topic: 'events',
-  cmd: 'createEvent',
+  topic: 'keywords',
+  cmd: 'createKeyword',
 };
 
 export interface IParams {
   botId: string;
-  trigger: EnumTriggers;
+  triggers: string[];
+  rule?: EnumKeywordRules;
+  caseSensitive?: boolean;
   message: string;
   isEnabled?: boolean;
 }
 
 export interface IResponse {
-  eventId: string;
+  keywordId: string;
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
-  const { eventId } = await db.events.create(params);
+  const { keywordId } = await db.keywords.create(params);
 
   return {
-    eventId,
+    keywordId,
   };
 });
