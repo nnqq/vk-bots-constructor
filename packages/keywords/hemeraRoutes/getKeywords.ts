@@ -23,6 +23,7 @@ export interface IResponse {
   totalCount: number;
   count: number;
   offset: number;
+  botId: string;
   keywords: IKeyword[];
 }
 
@@ -32,10 +33,10 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
   } = params;
 
   const [keywords, totalCount] = await Promise.all([
-    db.keywords.find(query, ['-_id', '-__v'], {
+    db.keywords.find(query, ['-botId', '-_id', '-__v'], {
       limit: count,
       skip: offset,
-    }),
+    }).lean(),
     db.keywords.countDocuments(query),
   ]);
 
@@ -43,6 +44,7 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
     totalCount,
     count: keywords.length,
     offset,
+    botId: params.botId,
     keywords,
   };
 });

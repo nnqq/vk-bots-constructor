@@ -61,5 +61,18 @@ module.exports = {
         NODE_ENV: 'production',
       },
     },
+
+    {
+      name: 'keywords',
+      script: './packages/keywords/server.ts',
+      watch: true,
+      env: {
+        NODE_ENV: 'development',
+        MONGO_URI: 'mongodb://localhost:27017/vkbc-keywords',
+      },
+      env_production: {
+        NODE_ENV: 'production',
+      },
+    },
   ],
 };

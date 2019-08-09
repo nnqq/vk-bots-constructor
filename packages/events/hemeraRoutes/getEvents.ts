@@ -8,25 +8,22 @@ export const path: IHemeraPath = {
 };
 
 export interface IParams {
-  botId?: string;
+  botId: string;
+  isEnabled?: boolean;
 }
 
 export interface IResponse {
+  botId: string;
   events: IEvent[];
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
   const { botId } = params;
 
-  const query: IParams = {};
-
-  if (botId) {
-    query.botId = botId;
-  }
-
-  const events = await db.events.find(query, ['-_id', '-__v']).lean();
+  const events = await db.events.find(params, ['-botId', '-_id', '-__v']).lean();
 
   return {
+    botId,
     events,
   };
 });

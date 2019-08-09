@@ -9,6 +9,7 @@ import { authAccessBot } from './auth/authAccessBot';
 import { usersRoutes } from './routes/users';
 import { botsRoutes } from './routes/bots';
 import { eventsRoutes } from './routes/events';
+import { keywordsRoutes } from './routes/keywords';
 
 const init = async () => {
   const server = new Server({
@@ -51,7 +52,7 @@ const init = async () => {
 
   server.realm.modifiers.route.prefix = '/api';
 
-  server.route([...usersRoutes, ...botsRoutes, ...eventsRoutes]);
+  server.route([...usersRoutes, ...botsRoutes, ...eventsRoutes, ...keywordsRoutes]);
 
   await server.start();
   logger.info(`API server running on ${server.info.uri}`);
