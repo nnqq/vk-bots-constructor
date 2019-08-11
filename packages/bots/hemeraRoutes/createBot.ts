@@ -20,6 +20,7 @@ export const path: IHemeraPath = {
 
 export interface IParams {
   code: string;
+  state: string;
 }
 
 export interface IResponse {
@@ -31,13 +32,12 @@ interface IOAuthSuccess {
   access_token_XXXX: string; // access_token_XXXX where XXXX is groupId
   expires_in: number;
   /* eslint-enable camelcase */
-  state: string; // userId
 }
 
 type IOAuthResponse = IOAuthSuccess | IOAuthError;
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
-  const { code } = params;
+  const { code, state } = params;
 
   const qs = stringify({
     client_id: CLIENT_ID,
@@ -117,7 +117,7 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
       confirmation: confirmation.code,
     }),
     users.addBot({
-      userId: oAuthResponse.state,
+      userId: state,
       botId,
     }),
   ]);

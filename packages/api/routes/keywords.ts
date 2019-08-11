@@ -15,8 +15,10 @@ export const keywordsRoutes: ServerRoute[] = [
         strategy: 'accessBot',
       },
       validate: {
-        payload: {
+        query: {
           botId: Joi.string().required(),
+        },
+        payload: {
           triggers: Joi.array().items(Joi.string().required()).required(),
           rule: Joi.string().valid(RULES).default(RULES[0]),
           caseSensitive: Joi.boolean().default(false),
@@ -63,15 +65,17 @@ export const keywordsRoutes: ServerRoute[] = [
         strategy: 'accessBot',
       },
       validate: {
+        query: {
+          botId: Joi.string().required(),
+        },
         payload: Joi.object({
-          botId: Joi.string(),
           keywordId: Joi.string(),
           triggers: Joi.array().items(Joi.string().required()),
           rule: Joi.string().valid(RULES),
           caseSensitive: Joi.boolean(),
           messsage: Joi.string(),
           isEnabled: Joi.boolean(),
-        }).requiredKeys('botId', 'keywordId')
+        }).requiredKeys('keywordId')
           .or('triggers', 'rule', 'caseSensitive', 'messsage', 'isEnabled'),
       },
     },
@@ -88,8 +92,10 @@ export const keywordsRoutes: ServerRoute[] = [
         strategy: 'accessBot',
       },
       validate: {
-        payload: {
+        query: {
           botId: Joi.string().required(),
+        },
+        payload: {
           keywordId: Joi.string().required(),
         },
       },

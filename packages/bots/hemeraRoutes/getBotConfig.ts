@@ -15,7 +15,7 @@ export interface IParams {
 }
 
 export type IResponse = IEvents & {
-  keywords: IKeywords['keywords']
+  keywords: IKeywords['keywords'];
 };
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {

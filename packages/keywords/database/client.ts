@@ -15,6 +15,7 @@ export interface IKeyword extends mongoose.Document {
   botId: string;
   triggers: string[];
   rule: EnumKeywordRules;
+  caseSensitive: boolean;
   message: string;
   isEnabled: boolean;
 }

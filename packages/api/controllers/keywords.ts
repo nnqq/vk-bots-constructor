@@ -1,33 +1,39 @@
 import { Request } from '@hapi/hapi';
-import { IParams as ICreateKeywordParams } from '../../keywords/hemeraRoutes/createKeyword';
+import { IParamsBase as ICreateKeywordParams } from '../../keywords/hemeraRoutes/createKeyword';
 import { IParams as IGetKeywordsParams } from '../../keywords/hemeraRoutes/getKeywords';
-import { IParams as IEditKeywordParams } from '../../keywords/hemeraRoutes/editKeyword';
-import { IParams as IDeleteKeywordParams } from '../../keywords/hemeraRoutes/deleteKeyword';
+import { IParamsBase as IEditKeywordParams } from '../../keywords/hemeraRoutes/editKeyword';
+import { IParamsBase as IDeleteKeywordParams } from '../../keywords/hemeraRoutes/deleteKeyword';
 import { keywords } from '../../keywords/client';
+import { IQueryBotId } from '../interfaces';
 
 interface ICreateKeyword {
   payload: ICreateKeywordParams;
 }
-type ICreateKeywordRequest = Request & ICreateKeyword;
+type ICreateKeywordRequest = ICreateKeyword & IQueryBotId & Request;
 
 interface IGetKeywords {
   query: IGetKeywordsParams;
 }
-type IGetKeywordsRequest = Request & IGetKeywords;
+type IGetKeywordsRequest = IGetKeywords & Request;
 
 interface IEditKeyword {
   payload: IEditKeywordParams;
 }
-type IEditKeywordRequest = Request & IEditKeyword;
+type IEditKeywordRequest = IEditKeyword & IQueryBotId & Request;
 
 interface IDeleteKeyword {
   payload: IDeleteKeywordParams;
 }
-type IDeleteKeywordRequest = Request & IDeleteKeyword;
+type IDeleteKeywordRequest = IDeleteKeyword & IQueryBotId & Request;
 
 export const controllers = {
   createKeyword(req: ICreateKeywordRequest) {
-    return keywords.createKeyword(req.payload);
+    const params = {
+      ...req.payload,
+      ...req.query,
+    };
+
+    return keywords.createKeyword(params);
   },
 
   getKeywords(req: IGetKeywordsRequest) {
@@ -35,10 +41,20 @@ export const controllers = {
   },
 
   editKeyword(req: IEditKeywordRequest) {
-    return keywords.editKeyword(req.payload);
+    const params = {
+      ...req.payload,
+      ...req.query,
+    };
+
+    return keywords.editKeyword(params);
   },
 
   deleteKeyword(req: IDeleteKeywordRequest) {
-    return keywords.deleteKeyword(req.payload);
+    const params = {
+      ...req.payload,
+      ...req.query,
+    };
+
+    return keywords.deleteKeyword(params);
   },
 };

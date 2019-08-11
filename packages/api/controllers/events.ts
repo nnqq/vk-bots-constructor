@@ -1,44 +1,60 @@
 import { Request } from '@hapi/hapi';
 import { events } from '../../events/client';
-import { IParams as ICreateEventParams } from '../../events/hemeraRoutes/createEvent';
+import { IParamsBase as ICreateEventParams } from '../../events/hemeraRoutes/createEvent';
 import { IParams as IGetEventsParams } from '../../events/hemeraRoutes/getEvents';
-import { IParams as IEditEventParams } from '../../events/hemeraRoutes/editEvent';
-import { IParams as IDeleteEventParams } from '../../events/hemeraRoutes/deleteEvent';
+import { IParamsBase as IEditEventParams } from '../../events/hemeraRoutes/editEvent';
+import { IParamsBase as IDeleteEventParams } from '../../events/hemeraRoutes/deleteEvent';
+import { IQueryBotId } from '../interfaces';
 
 interface ICreateEvent {
   payload: ICreateEventParams;
 }
-type ICreateEventRequest = Request & ICreateEvent;
+type ICreateEventRequest = ICreateEvent & IQueryBotId & Request;
 
 interface IGetEvents {
-  payload: IGetEventsParams;
+  query: IGetEventsParams;
 }
-type IGetEventsRequest = Request & IGetEvents;
+type IGetEventsRequest = IGetEvents & Request;
 
 interface IEditEvent {
   payload: IEditEventParams;
 }
-type IEditEventRequest = Request & IEditEvent;
+type IEditEventRequest = IEditEvent & IQueryBotId & Request;
 
 interface IDeleteEvent {
   payload: IDeleteEventParams;
 }
-type IDeleteEventRequest = Request & IDeleteEvent;
+type IDeleteEventRequest = IDeleteEvent & IQueryBotId & Request;
 
 export const controllers = {
   createEvent(req: ICreateEventRequest) {
-    return events.createEvent(req.payload);
+    const params = {
+      ...req.payload,
+      ...req.query,
+    };
+
+    return events.createEvent(params);
   },
 
   getEvents(req: IGetEventsRequest) {
-    return events.getEvents(req.payload);
+    return events.getEvents(req.query);
   },
 
   editEvent(req: IEditEventRequest) {
-    return events.editEvent(req.payload);
+    const params = {
+      ...req.payload,
+      ...req.query,
+    };
+
+    return events.editEvent(params);
   },
 
   deleteEvent(req: IDeleteEventRequest) {
-    return events.deleteEvent(req.payload);
+    const params = {
+      ...req.payload,
+      ...req.query,
+    };
+
+    return events.deleteEvent(params);
   },
 };

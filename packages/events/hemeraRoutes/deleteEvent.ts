@@ -7,9 +7,12 @@ export const path: IHemeraPath = {
   cmd: 'deleteEvent',
 };
 
-export interface IParams {
-  botId: string;
+export interface IParamsBase {
   eventId: string;
+}
+
+export interface IParams extends IParamsBase {
+  botId: string;
 }
 
 export interface IResponse {

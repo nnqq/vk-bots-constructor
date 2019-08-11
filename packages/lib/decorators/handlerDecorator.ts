@@ -1,1 +1,5 @@
-export const handlerDecorator = (func: Function) => (req: any) => func(req.params);
+interface IRequest {
+  [key: string]: any;
+}
+
+export const handlerDecorator = (func: Function) => (req: IRequest) => func(req.params);

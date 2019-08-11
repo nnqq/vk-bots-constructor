@@ -12,7 +12,9 @@ if (MONGO_URI) {
 export interface IBot extends mongoose.Document {
   botId: string;
   vkGroupId: number;
+  vkGroupAccessToken: string;
   secret: string;
+  confirmation: string;
   isEnabled: boolean;
 }
 

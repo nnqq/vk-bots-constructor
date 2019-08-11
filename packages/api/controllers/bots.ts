@@ -1,7 +1,7 @@
 import { Request } from '@hapi/hapi';
 import { bots } from '../../bots/client';
 import { IAuth } from '../auth/interfaces';
-import { IParams as ICreateBotParams } from '../../bots/hemeraRoutes/getGroups';
+import { IParams as ICreateBotParams } from '../../bots/hemeraRoutes/createBot';
 
 type IGetGroupsRequest = Request & IAuth;
 
@@ -20,13 +20,19 @@ export const controllers = {
   },
 
   createBot(req: ICreateBotRequest) {
-    const { code } = req.query;
+    const { code, state } = req.query;
+
     if (Array.isArray(code)) {
       throw new Error('Code should be a String');
     }
 
+    if (Array.isArray(state)) {
+      throw new Error('State should be a String');
+    }
+
     return bots.createBot({
       code,
+      state,
     });
   },
 };

@@ -26,6 +26,7 @@ export const botsRoutes: ServerRoute[] = [
       validate: {
         query: {
           code: Joi.string().required(),
+          state: Joi.string().required(),
         },
       },
     },

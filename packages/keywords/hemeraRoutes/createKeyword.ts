@@ -8,13 +8,16 @@ export const path: IHemeraPath = {
   cmd: 'createKeyword',
 };
 
-export interface IParams {
-  botId: string;
+export interface IParamsBase {
   triggers: string[];
   rule?: EnumKeywordRules;
   caseSensitive?: boolean;
   message: string;
   isEnabled?: boolean;
+}
+
+export interface IParams extends IParamsBase {
+  botId: string;
 }
 
 export interface IResponse {

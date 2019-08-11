@@ -14,7 +14,7 @@ export interface IParams {
 
 export interface IResponse {
   isValid: boolean;
-  credentials?: IUser;
+  credentials: IUser | {};
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
@@ -31,5 +31,6 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
 
   return {
     isValid: false,
+    credentials: {},
   };
 });

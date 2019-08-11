@@ -7,9 +7,12 @@ export const path: IHemeraPath = {
   cmd: 'deleteKeyword',
 };
 
-export interface IParams {
-  botId: string;
+export interface IParamsBase {
   keywordId: string;
+}
+
+export interface IParams extends IParamsBase {
+  botId: string;
 }
 
 export interface IResponse {

@@ -20,8 +20,8 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
   const { nModified } = await db.users.updateOne({
     userId,
   }, {
-    botIds: {
-      $push: botId,
+    $push: {
+      botIds: botId,
     },
   });
 

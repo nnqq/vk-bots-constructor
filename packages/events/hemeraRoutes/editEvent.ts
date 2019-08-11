@@ -8,12 +8,15 @@ export const path: IHemeraPath = {
   cmd: 'editEvent',
 };
 
-export interface IParams {
-  botId: string;
+export interface IParamsBase {
   eventId: string;
   trigger?: EnumTriggers;
   message?: string;
   isEnabled?: boolean;
+}
+
+export interface IParams extends IParamsBase {
+  botId: string;
 }
 
 export interface IResponse {

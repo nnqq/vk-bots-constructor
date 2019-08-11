@@ -16,7 +16,7 @@ export interface IResponse {
   items: number[];
 }
 
-export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
+export const handler = handlerDecorator((params: IParams): Promise<IResponse> => {
   const { vkUserAccessToken } = params;
 
   const vk = new Vk({
