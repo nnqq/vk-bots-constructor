@@ -6,6 +6,7 @@ import VkBot from 'node-vk-bot-api';
 import { db } from '../database/client';
 import { handler as getBotConfig, IResponse as IGetBotConfigResponse } from '../hemeraRoutes/getBotConfig';
 import { EnumKeywordRules } from '../../keywords/interfaces';
+import { logger } from '../../lib/logger';
 
 interface IBot {
   botId: string;
@@ -20,20 +21,19 @@ class BotFather {
 
   constructor() {
     this.bots = new Map();
-    this.init();
+
+    this.init()
+      .then(() => {
+        logger.info('BotFather started and loaded all active bots');
+      })
+      .catch((e) => {
+        logger.fatal('Error at BotFather: ', e);
+      });
   }
 
   private async init() {
     const app = new Koa();
     const router = new Router();
-
-    const activeBotsList = await db.bots.find({
-      isEnabled: true,
-    }, ['-isEnabled']);
-
-    const startBots = activeBotsList.map(activeBot => this.refreshBot(activeBot));
-
-    await Promise.all(startBots);
 
     router.post('/:botId', (ctx, next) => {
       const { botId } = ctx.params;
@@ -51,6 +51,14 @@ class BotFather {
     app.use(router.routes());
 
     app.listen(3000);
+
+    const activeBotsList = await db.bots.find({
+      isEnabled: true,
+    }, ['-isEnabled']);
+
+    const startBots = activeBotsList.map(activeBot => this.refreshBot(activeBot));
+
+    return Promise.all(startBots);
   }
 
   public create({
