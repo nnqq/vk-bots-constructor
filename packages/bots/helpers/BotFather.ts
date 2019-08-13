@@ -7,7 +7,7 @@ import { db } from '../database/client';
 import { handler as getBotConfig, IResponse as IGetBotConfigResponse } from '../hemeraRoutes/getBotConfig';
 import { EnumKeywordRules } from '../../keywords/interfaces';
 
-interface ICreate {
+interface IBot {
   botId: string;
   vkGroupId: number;
   vkGroupAccessToken: string;
@@ -19,7 +19,7 @@ class BotFather {
   private readonly bots: any;
 
   constructor() {
-    this.bots = {};
+    this.bots = new Map();
     this.init();
   }
 
@@ -31,70 +31,16 @@ class BotFather {
       isEnabled: true,
     }, ['-isEnabled']);
 
-    const startBots = activeBotsList.map(async ({
-      botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
-    }) => {
-      this.create({
-        botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
-      });
-
-      const config = await getBotConfig({
-        params: {
-          botId,
-        },
-      }) as IGetBotConfigResponse;
-
-      config.events.forEach(({ trigger, message }) => {
-        this.bots[botId].event(trigger, (ctx: any) => {
-          ctx.reply(message);
-        });
-      });
-
-      config.keywords.forEach(({
-        triggers, rule, caseSensitive, message,
-      }) => {
-        this.bots[botId].event('message_new', (ctx: any) => {
-          const inWords: string[] = [];
-
-          const trimmedInMessage = ctx.message.text.trim();
-
-          const caseTriggers: string[] = [];
-
-          if (caseSensitive) {
-            inWords.push(...trimmedInMessage.split(' '));
-
-            caseTriggers.push(...triggers);
-          } else {
-            inWords.push(...trimmedInMessage.toLowerCase().split(' '));
-
-            const loweredCaseTriggers = triggers.map(trigger => trigger.toLowerCase());
-
-            caseTriggers.push(...loweredCaseTriggers);
-          }
-
-          if (rule === EnumKeywordRules.contain
-            && caseTriggers.some(trigger => inWords.includes(trigger))) {
-            return ctx.reply(message);
-          }
-
-          if (rule === EnumKeywordRules.equal
-          && caseTriggers.some(trigger => inWords[0] === trigger)) {
-            return ctx.reply(message);
-          }
-
-          return false;
-        });
-      });
-    });
+    const startBots = activeBotsList.map(activeBot => this.refreshBot(activeBot));
 
     await Promise.all(startBots);
 
     router.post('/:botId', (ctx, next) => {
       const { botId } = ctx.params;
 
-      if (this.bots[botId]) {
+      if (this.bots.has(botId)) {
         ctx.status = 200;
-        this.bots[botId].webhookCallback(ctx, next);
+        this.bots.get(botId).webhookCallback(ctx, next);
       } else {
         ctx.status = 400;
         ctx.body = 'error';
@@ -109,12 +55,68 @@ class BotFather {
 
   public create({
     botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
-  }: ICreate) {
-    this.bots[botId] = new VkBot({
+  }: IBot) {
+    this.bots.set(botId, new VkBot({
       group_id: vkGroupId,
       token: vkGroupAccessToken,
       secret,
       confirmation,
+    }));
+  }
+
+  public async refreshBot({
+    botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
+  }: IBot) {
+    this.create({
+      botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
+    });
+
+    const config = await getBotConfig({
+      params: {
+        botId,
+      },
+    }) as IGetBotConfigResponse;
+
+    config.events.forEach(({ trigger, message }) => {
+      this.bots.get(botId).event(trigger, (ctx: any) => {
+        ctx.reply(message);
+      });
+    });
+
+    config.keywords.forEach(({
+      triggers, rule, caseSensitive, message,
+    }) => {
+      this.bots.get(botId).event('message_new', (ctx: any) => {
+        const inWords: string[] = [];
+
+        const trimmedInMessage = ctx.message.text.trim();
+
+        const caseTriggers: string[] = [];
+
+        if (caseSensitive) {
+          inWords.push(...trimmedInMessage.split(' '));
+
+          caseTriggers.push(...triggers);
+        } else {
+          inWords.push(...trimmedInMessage.toLowerCase().split(' '));
+
+          const loweredCaseTriggers = triggers.map(trigger => trigger.toLowerCase());
+
+          caseTriggers.push(...loweredCaseTriggers);
+        }
+
+        if (rule === EnumKeywordRules.contain
+          && caseTriggers.some(trigger => inWords.includes(trigger))) {
+          return ctx.reply(message);
+        }
+
+        if (rule === EnumKeywordRules.equal
+          && caseTriggers.some(trigger => inWords[0] === trigger)) {
+          return ctx.reply(message);
+        }
+
+        return false;
+      });
     });
   }
 }
