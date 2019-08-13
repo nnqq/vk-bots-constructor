@@ -1,17 +1,15 @@
-import { Request } from '@hapi/hapi';
 import { bots } from '../../bots/client';
 import { IAuth } from '../auth/interfaces';
 import { IParams as ICreateBotParams } from '../../bots/hemeraRoutes/createBot';
 
-type IGetGroupsRequest = Request & IAuth;
+type IGetGroups = Request & IAuth;
 
-interface ICreateBot {
+type ICreateBot = {
   query: ICreateBotParams;
-}
-type ICreateBotRequest = Request & ICreateBot;
+} & Request;
 
 export const controllers = {
-  getGroups(req: IGetGroupsRequest) {
+  getGroups(req: IGetGroups) {
     const { vkUserAccessToken } = req.auth.credentials;
 
     return bots.getGroups({
@@ -19,7 +17,7 @@ export const controllers = {
     });
   },
 
-  createBot(req: ICreateBotRequest) {
+  createBot(req: ICreateBot) {
     const { code, state } = req.query;
 
     if (Array.isArray(code)) {

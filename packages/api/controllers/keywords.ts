@@ -1,4 +1,3 @@
-import { Request } from '@hapi/hapi';
 import { IParamsBase as ICreateKeywordParams } from '../../keywords/hemeraRoutes/createKeyword';
 import { IParams as IGetKeywordsParams } from '../../keywords/hemeraRoutes/getKeywords';
 import { IParamsBase as IEditKeywordParams } from '../../keywords/hemeraRoutes/editKeyword';
@@ -6,28 +5,24 @@ import { IParamsBase as IDeleteKeywordParams } from '../../keywords/hemeraRoutes
 import { keywords } from '../../keywords/client';
 import { IQueryBotId } from '../interfaces';
 
-interface ICreateKeyword {
+type ICreateKeyword = {
   payload: ICreateKeywordParams;
-}
-type ICreateKeywordRequest = ICreateKeyword & IQueryBotId & Request;
+} & IQueryBotId;
 
 interface IGetKeywords {
   query: IGetKeywordsParams;
 }
-type IGetKeywordsRequest = IGetKeywords & Request;
 
-interface IEditKeyword {
+type IEditKeyword = {
   payload: IEditKeywordParams;
-}
-type IEditKeywordRequest = IEditKeyword & IQueryBotId & Request;
+} & IQueryBotId;
 
-interface IDeleteKeyword {
+type IDeleteKeyword = {
   payload: IDeleteKeywordParams;
-}
-type IDeleteKeywordRequest = IDeleteKeyword & IQueryBotId & Request;
+} & IQueryBotId;
 
 export const controllers = {
-  createKeyword(req: ICreateKeywordRequest) {
+  createKeyword(req: ICreateKeyword) {
     const params = {
       ...req.payload,
       ...req.query,
@@ -36,11 +31,11 @@ export const controllers = {
     return keywords.createKeyword(params);
   },
 
-  getKeywords(req: IGetKeywordsRequest) {
+  getKeywords(req: IGetKeywords) {
     return keywords.getKeywords(req.query);
   },
 
-  editKeyword(req: IEditKeywordRequest) {
+  editKeyword(req: IEditKeyword) {
     const params = {
       ...req.payload,
       ...req.query,
@@ -49,7 +44,7 @@ export const controllers = {
     return keywords.editKeyword(params);
   },
 
-  deleteKeyword(req: IDeleteKeywordRequest) {
+  deleteKeyword(req: IDeleteKeyword) {
     const params = {
       ...req.payload,
       ...req.query,

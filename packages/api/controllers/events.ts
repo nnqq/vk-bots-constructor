@@ -1,4 +1,3 @@
-import { Request } from '@hapi/hapi';
 import { events } from '../../events/client';
 import { IParamsBase as ICreateEventParams } from '../../events/hemeraRoutes/createEvent';
 import { IParams as IGetEventsParams } from '../../events/hemeraRoutes/getEvents';
@@ -6,28 +5,24 @@ import { IParamsBase as IEditEventParams } from '../../events/hemeraRoutes/editE
 import { IParamsBase as IDeleteEventParams } from '../../events/hemeraRoutes/deleteEvent';
 import { IQueryBotId } from '../interfaces';
 
-interface ICreateEvent {
+type ICreateEvent = {
   payload: ICreateEventParams;
-}
-type ICreateEventRequest = ICreateEvent & IQueryBotId & Request;
+} & IQueryBotId;
 
 interface IGetEvents {
   query: IGetEventsParams;
 }
-type IGetEventsRequest = IGetEvents & Request;
 
-interface IEditEvent {
+type IEditEvent = {
   payload: IEditEventParams;
-}
-type IEditEventRequest = IEditEvent & IQueryBotId & Request;
+} & IQueryBotId;
 
-interface IDeleteEvent {
+type IDeleteEvent = {
   payload: IDeleteEventParams;
-}
-type IDeleteEventRequest = IDeleteEvent & IQueryBotId & Request;
+} & IQueryBotId;
 
 export const controllers = {
-  createEvent(req: ICreateEventRequest) {
+  createEvent(req: ICreateEvent) {
     const params = {
       ...req.payload,
       ...req.query,
@@ -36,11 +31,11 @@ export const controllers = {
     return events.createEvent(params);
   },
 
-  getEvents(req: IGetEventsRequest) {
+  getEvents(req: IGetEvents) {
     return events.getEvents(req.query);
   },
 
-  editEvent(req: IEditEventRequest) {
+  editEvent(req: IEditEvent) {
     const params = {
       ...req.payload,
       ...req.query,
@@ -49,7 +44,7 @@ export const controllers = {
     return events.editEvent(params);
   },
 
-  deleteEvent(req: IDeleteEventRequest) {
+  deleteEvent(req: IDeleteEvent) {
     const params = {
       ...req.payload,
       ...req.query,
