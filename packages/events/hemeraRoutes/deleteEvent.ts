@@ -1,6 +1,7 @@
 import { IHemeraPath } from '../../lib/hemera';
 import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
 import { db } from '../database/client';
+import { bots } from '../../bots/client';
 
 export const path: IHemeraPath = {
   topic: 'events',
@@ -29,6 +30,10 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
 
   if (typeof n === 'undefined') {
     throw new Error('Can\'t delete Event');
+  }
+
+  if (n) {
+    await bots.refreshBot({ botId });
   }
 
   return {

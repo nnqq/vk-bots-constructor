@@ -2,6 +2,7 @@ import { IHemeraPath } from '../../lib/hemera';
 import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
 import { db } from '../database/client';
 import { EnumKeywordRules } from '../interfaces';
+import { bots } from '../../bots/client';
 
 export const path: IHemeraPath = {
   topic: 'keywords',
@@ -25,7 +26,11 @@ export interface IResponse {
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
+  const { botId } = params;
+
   const { keywordId } = await db.keywords.create(params);
+
+  await bots.refreshBot({ botId });
 
   return {
     keywordId,

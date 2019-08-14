@@ -55,7 +55,7 @@ export const keywordsRoutes: ServerRoute[] = [
   },
 
   {
-    method: 'PUT',
+    method: 'PATCH',
     path: '/keywords',
     options: {
       tags: ['api', 'keywords'],
@@ -73,10 +73,10 @@ export const keywordsRoutes: ServerRoute[] = [
           triggers: Joi.array().items(Joi.string().required()),
           rule: Joi.string().valid(RULES),
           caseSensitive: Joi.boolean(),
-          messsage: Joi.string(),
+          message: Joi.string(),
           isEnabled: Joi.boolean(),
         }).requiredKeys('keywordId')
-          .or('triggers', 'rule', 'caseSensitive', 'messsage', 'isEnabled'),
+          .or('triggers', 'rule', 'caseSensitive', 'message', 'isEnabled'),
       },
     },
   },

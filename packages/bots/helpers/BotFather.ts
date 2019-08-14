@@ -6,7 +6,6 @@ import VkBot from 'node-vk-bot-api';
 import { db } from '../database/client';
 import { handler as getBotConfig, IResponse as IGetBotConfigResponse } from '../hemeraRoutes/getBotConfig';
 import { EnumKeywordRules } from '../../keywords/interfaces';
-import { logger } from '../../lib/logger';
 
 interface IBot {
   botId: string;
@@ -21,17 +20,9 @@ class BotFather {
 
   constructor() {
     this.bots = new Map();
-
-    this.init()
-      .then(() => {
-        logger.info('BotFather started and loaded all active bots');
-      })
-      .catch((e) => {
-        logger.fatal('Error at BotFather: ', e);
-      });
   }
 
-  private async init() {
+  public async initBotFather() {
     const app = new Koa();
     const router = new Router();
 
@@ -56,7 +47,7 @@ class BotFather {
       isEnabled: true,
     }, ['-isEnabled']);
 
-    const startBots = activeBotsList.map(activeBot => this.refreshBot(activeBot));
+    const startBots = activeBotsList.map(activeBot => this.initBot(activeBot));
 
     return Promise.all(startBots);
   }
@@ -72,7 +63,7 @@ class BotFather {
     }));
   }
 
-  public async refreshBot({
+  public async initBot({
     botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
   }: IBot) {
     this.create({
@@ -113,13 +104,15 @@ class BotFather {
           caseTriggers.push(...loweredCaseTriggers);
         }
 
-        if (rule === EnumKeywordRules.contain
-          && caseTriggers.some(trigger => inWords.includes(trigger))) {
+        const isContainKeywords = caseTriggers.some(trigger => inWords.includes(trigger));
+
+        if (rule === EnumKeywordRules.contain && isContainKeywords) {
           return ctx.reply(message);
         }
 
-        if (rule === EnumKeywordRules.equal
-          && caseTriggers.some(trigger => inWords[0] === trigger)) {
+        const isEqualKeywords = caseTriggers.some(trigger => inWords[0] === trigger);
+
+        if (rule === EnumKeywordRules.equal && isEqualKeywords) {
           return ctx.reply(message);
         }
 

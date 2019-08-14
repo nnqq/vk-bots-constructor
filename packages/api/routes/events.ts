@@ -47,7 +47,7 @@ export const eventsRoutes: ServerRoute[] = [
   },
 
   {
-    method: 'PUT',
+    method: 'PATCH',
     path: '/events',
     options: {
       tags: ['api', 'events'],

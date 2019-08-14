@@ -17,6 +17,12 @@ import {
   path as getBotConfigPath,
 } from './hemeraRoutes/getBotConfig';
 
+import {
+  IParams as refreshBotParams,
+  IResponse as refreshBotResponse,
+  path as refreshBotPath,
+} from './hemeraRoutes/refreshBot';
+
 export const bots = {
   getGroups(params: getGroupsParams): Promise<getGroupsResponse> {
     return hemera.send(getGroupsPath, params);
@@ -28,5 +34,9 @@ export const bots = {
 
   getBotConfig(params: getBotConfigParams): Promise<getBotConfigResponse> {
     return hemera.send(getBotConfigPath, params);
+  },
+
+  refreshBot(params: refreshBotParams): Promise<refreshBotResponse> {
+    return hemera.send(refreshBotPath, params);
   },
 };

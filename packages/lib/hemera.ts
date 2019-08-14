@@ -6,6 +6,7 @@ import { logger } from './logger';
 export interface IHemeraPath {
   topic: string;
   cmd: string;
+  pubsub$?: true;
 }
 
 class HemeraBase extends Hemera<any, any> {
