@@ -21,10 +21,10 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
   const bot = await db.bots.findOne({
     botId,
     isEnabled: true,
-  }, ['-_id', '-__v', '-isEnabled']);
+  }, ['-_id', '-__v', '-isEnabled']).lean();
 
   if (bot) {
     // Refresh and start bot only if it "isEnabled"
-    await botFather.initBot(bot);
+    await botFather.startBot(bot);
   }
 });

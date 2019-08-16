@@ -1,22 +1,37 @@
+import mongoose from 'mongoose';
 import { hemera } from '../lib/hemera';
 import { botFather } from './helpers/BotFather';
 import { logger } from '../lib/logger';
+import { mongoConnect } from '../lib/mongo';
 import { path as getGroupsPath, handler as getGroupsHandler } from './hemeraRoutes/getGroups';
 import { path as createBotPath, handler as createBotHandler } from './hemeraRoutes/createBot';
 import { path as getBotConfigPath, handler as getBotConfigHandler } from './hemeraRoutes/getBotConfig';
 import { path as refreshBotPath, handler as refreshBotHandler } from './hemeraRoutes/refreshBot';
 
-hemera.add(getGroupsPath, getGroupsHandler);
-hemera.add(createBotPath, createBotHandler);
-hemera.add(getBotConfigPath, getBotConfigHandler);
-hemera.add(refreshBotPath, refreshBotHandler);
+hemera.registerRoutes([{
+  path: getGroupsPath,
+  handler: getGroupsHandler,
+}, {
+  path: createBotPath,
+  handler: createBotHandler,
+}, {
+  path: getBotConfigPath,
+  handler: getBotConfigHandler,
+}, {
+  path: refreshBotPath,
+  handler: refreshBotHandler,
+}]);
 
-hemera.ready()
-  .then(() => botFather.initBotFather())
-  .then(() => {
+(async () => {
+  try {
+    await mongoConnect(mongoose);
+
+    await hemera.ready();
+
+    await botFather.initBotFather();
     logger.info('BotFather started and loaded all active bots');
-  })
-  .catch((e) => {
-    logger.fatal('Error at BotFather: ', e);
+  } catch (e) {
+    logger.fatal(e);
     process.exit(1);
-  });
+  }
+})();

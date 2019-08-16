@@ -1,13 +1,5 @@
 import mongoose from 'mongoose';
-import { MONGO_URI } from '../constants';
 import { botSchema } from './schemas/bot';
-
-// TODO на проде добавить autoIndex: false
-if (MONGO_URI) {
-  mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-  });
-}
 
 export interface IBot extends mongoose.Document {
   botId: string;

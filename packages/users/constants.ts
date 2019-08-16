@@ -7,5 +7,5 @@
  * Должен быть аналогичен переданному при авторизации.
  */
 export const {
-  CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, MONGO_URI,
+  CLIENT_ID, CLIENT_SECRET, REDIRECT_URI,
 } = process.env;

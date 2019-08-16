@@ -7,12 +7,16 @@ import { db } from '../database/client';
 import { handler as getBotConfig, IResponse as IGetBotConfigResponse } from '../hemeraRoutes/getBotConfig';
 import { EnumKeywordRules } from '../../keywords/interfaces';
 
-interface IBot {
+interface IBotData {
   botId: string;
   vkGroupId: number;
   vkGroupAccessToken: string;
   secret: string;
   confirmation: string;
+}
+
+interface IKillBot {
+  botId: string;
 }
 
 class BotFather {
@@ -43,18 +47,18 @@ class BotFather {
 
     app.listen(3000);
 
-    const activeBotsList = await db.bots.find({
+    const activeBotsList: IBotData[] = await db.bots.find({
       isEnabled: true,
-    }, ['-isEnabled']);
+    }, ['-isEnabled']).lean();
 
-    const startBots = activeBotsList.map(activeBot => this.initBot(activeBot));
+    const startBots = activeBotsList.map(activeBot => this.startBot(activeBot));
 
     return Promise.all(startBots);
   }
 
-  public create({
+  public loadBot({
     botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
-  }: IBot) {
+  }: IBotData) {
     this.bots.set(botId, new VkBot({
       group_id: vkGroupId,
       token: vkGroupAccessToken,
@@ -63,12 +67,10 @@ class BotFather {
     }));
   }
 
-  public async initBot({
-    botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
-  }: IBot) {
-    this.create({
-      botId, vkGroupId, vkGroupAccessToken, secret, confirmation,
-    });
+  public async startBot(botData: IBotData) {
+    this.loadBot(botData);
+
+    const { botId } = botData;
 
     const config = await getBotConfig({
       params: {
@@ -119,6 +121,10 @@ class BotFather {
         return false;
       });
     });
+  }
+
+  public killBot({ botId }: IKillBot) {
+    this.bots.delete(botId);
   }
 }
 

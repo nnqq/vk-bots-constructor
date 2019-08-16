@@ -23,6 +23,12 @@ import {
   path as refreshBotPath,
 } from './hemeraRoutes/refreshBot';
 
+import {
+  IParams as editBotParams,
+  IResponse as editBotResponse,
+  path as editBotPath,
+} from './hemeraRoutes/editBot';
+
 export const bots = {
   getGroups(params: getGroupsParams): Promise<getGroupsResponse> {
     return hemera.send(getGroupsPath, params);
@@ -38,5 +44,9 @@ export const bots = {
 
   refreshBot(params: refreshBotParams): Promise<refreshBotResponse> {
     return hemera.send(refreshBotPath, params);
+  },
+
+  editBot(params: editBotParams): Promise<editBotResponse> {
+    return hemera.send(editBotPath, params);
   },
 };

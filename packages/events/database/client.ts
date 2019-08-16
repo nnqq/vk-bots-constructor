@@ -1,14 +1,6 @@
 import mongoose from 'mongoose';
-import { MONGO_URI } from '../constants';
 import { eventSchema } from './schemas/event';
 import { EnumTriggers } from '../interfaces';
-
-// TODO на проде добавить autoIndex: false
-if (MONGO_URI) {
-  mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-  });
-}
 
 export interface IEvent extends mongoose.Document {
   eventId: string;

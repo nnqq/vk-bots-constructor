@@ -58,12 +58,4 @@ const init = async () => {
   logger.info(`API server running on ${server.info.uri}`);
 };
 
-process.on('unhandledRejection', (e: any) => {
-  logger.error(e);
-});
-
-process.on('uncaughtException', (e: any) => {
-  logger.error(e);
-});
-
 init();

@@ -1,12 +1,18 @@
 import { bots } from '../../bots/client';
 import { IAuth } from '../auth/interfaces';
 import { IParams as ICreateBotParams } from '../../bots/hemeraRoutes/createBot';
+import { IQueryBotId } from '../interfaces';
+import { IParamsBase } from '../../bots/hemeraRoutes/editBot';
 
-type IGetGroups = Request & IAuth;
+type IGetGroups = IAuth;
 
-type ICreateBot = {
+interface ICreateBot {
   query: ICreateBotParams;
-} & Request;
+}
+
+type IEditBot = {
+  payload: IParamsBase;
+} & IQueryBotId;
 
 export const controllers = {
   getGroups(req: IGetGroups) {
@@ -32,5 +38,14 @@ export const controllers = {
       code,
       state,
     });
+  },
+
+  editBot(req: IEditBot) {
+    const params = {
+      ...req.payload,
+      ...req.query,
+    };
+
+    return bots.editBot(params);
   },
 };

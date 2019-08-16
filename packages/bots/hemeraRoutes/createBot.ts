@@ -94,7 +94,7 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
 
   const secret = uuidv4().split('-').join('');
 
-  botFather.create({
+  botFather.loadBot({
     botId,
     vkGroupId,
     vkGroupAccessToken: token,

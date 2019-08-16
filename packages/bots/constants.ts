@@ -1,6 +1,4 @@
 /**
- * MONGO_URI - Монга
- *
  * CLIENT_ID - Идентификатор приложения
  *
  * CLIENT_SECRET - Защищенный ключ приложения (указан в настройках приложения)
@@ -11,5 +9,5 @@
  * DOMAIN - домен приложения (https://example.com)
  */
 export const {
-  MONGO_URI, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, DOMAIN,
+  CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, DOMAIN,
 } = process.env;

@@ -9,6 +9,11 @@ export interface IHemeraPath {
   pubsub$?: true;
 }
 
+interface IRoute {
+  path: IHemeraPath;
+  handler: any;
+}
+
 class HemeraBase extends Hemera<any, any> {
   constructor(transport: Object, config: Hemera.Config) {
     super(transport, config);
@@ -26,6 +31,17 @@ class HemeraBase extends Hemera<any, any> {
     } catch (e) {
       logger.error(e);
       throw Boom.badRequest(e.message);
+    }
+  }
+
+  registerRoutes(routes: IRoute[]) {
+    try {
+      routes.forEach(({ path, handler }) => {
+        super.add(path, handler);
+      });
+    } catch (e) {
+      logger.fatal(e);
+      process.exit(1);
     }
   }
 }

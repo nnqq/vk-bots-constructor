@@ -47,7 +47,7 @@ export const keywordsRoutes: ServerRoute[] = [
           caseSensitive: Joi.boolean(),
           message: Joi.string(),
           isEnabled: Joi.boolean(),
-          count: Joi.number().min(0).max(100).default(100),
+          count: Joi.number().min(1).max(100).default(100),
           offset: Joi.number().min(0).default(0),
         }).requiredKeys('botId'),
       },
