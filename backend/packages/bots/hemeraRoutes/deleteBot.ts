@@ -47,7 +47,13 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
 
   botFather.killBot({ botId });
 
-  const { vkGroupId, vkGroupAccessToken } = await db.bots.findOne({ botId }).lean();
+  const bot = await db.bots.findOne({ botId }).lean();
+
+  if (!bot) {
+    throw new Error(`Bot with botId=${botId} not found`);
+  }
+
+  const { vkGroupId, vkGroupAccessToken } = bot;
 
   const vk = new Vk({
     token: vkGroupAccessToken,
