@@ -1,6 +1,7 @@
 import { IHemeraPath } from '../../lib/hemera';
 import { handlerDecorator } from '../../lib/decorators/handlerDecorator';
 import { Vk } from '../../lib/Vk';
+import { db } from '../database/client';
 
 export const path: IHemeraPath = {
   topic: 'bots',
@@ -12,19 +13,70 @@ export interface IParams {
 }
 
 export interface IResponse {
+  groups: IGroup[];
+}
+
+interface IGroup {
+  vkGroupId: number;
+  botId: string | null;
+  isEnabled: boolean | null;
+}
+
+interface IVkGroups {
   count: number;
   items: number[];
 }
 
-export const handler = handlerDecorator((params: IParams): Promise<IResponse> => {
+type TypeVkGroupId = number;
+
+interface IMapBotsValue {
+  botId: string;
+  isEnabled: boolean;
+}
+
+export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
   const { vkUserAccessToken } = params;
 
   const vk = new Vk({
     token: vkUserAccessToken,
   });
 
-  return vk.api('groups.get', {
+  const groups: IVkGroups = await vk.api('groups.get', {
     filter: 'admin',
     count: 1000,
   });
+
+  const bots = await db.bots.find({
+    vkGroupId: {
+      $in: groups.items,
+    },
+  }, ['vkGroupId', 'botId', 'isEnabled']);
+
+  const mapBots: Map<TypeVkGroupId, IMapBotsValue> = new Map();
+
+  bots.forEach(({ vkGroupId, botId, isEnabled }) => {
+    mapBots.set(vkGroupId, {
+      botId,
+      isEnabled,
+    });
+  });
+
+  return {
+    groups: groups.items.map((vkGroupId) => {
+      let botId = null;
+      let isEnabled = null;
+
+      if (mapBots.has(vkGroupId)) {
+        const bot = mapBots.get(vkGroupId)!;
+
+        ({ botId, isEnabled } = bot);
+      }
+
+      return {
+        vkGroupId,
+        botId,
+        isEnabled,
+      };
+    }),
+  };
 });
