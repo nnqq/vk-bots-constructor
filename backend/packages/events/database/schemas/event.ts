@@ -25,4 +25,10 @@ export const eventSchema = new Schema({
   },
 }, {
   timestamps: true,
-});
+})
+  .index({
+    botId: 1,
+    trigger: 1,
+  }, {
+    unique: true,
+  });

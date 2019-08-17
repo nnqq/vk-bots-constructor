@@ -11,6 +11,7 @@ export const mongoConnect = async (mongoose: any) => {
 
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
+      useCreateIndex: true,
     });
 
     logger.info('Mongo connected');
