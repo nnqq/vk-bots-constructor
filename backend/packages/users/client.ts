@@ -23,6 +23,12 @@ import {
   path as addBotPath,
 } from './hemeraRoutes/addBot';
 
+import {
+  IParams as deleteBotParams,
+  IResponse as deleteBotResponse,
+  path as deleteBotPath,
+} from './hemeraRoutes/deleteBot';
+
 export const users = {
   register(params: registerParams): Promise<registerResponse> {
     return hemera.send(registerPath, params);
@@ -38,5 +44,9 @@ export const users = {
 
   addBot(params: addBotParams): Promise<addBotResponse> {
     return hemera.send(addBotPath, params);
+  },
+
+  deleteBot(params: deleteBotParams): Promise<deleteBotResponse> {
+    return hemera.send(deleteBotPath, params);
   },
 };

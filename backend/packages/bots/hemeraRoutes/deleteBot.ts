@@ -6,6 +6,7 @@ import { events } from '../../events/client';
 import { keywords } from '../../keywords/client';
 import { Vk } from '../../lib/Vk';
 import { DOMAIN } from '../constants';
+import { users } from '../../users/client';
 
 export const path: IHemeraPath = {
   topic: 'bots',
@@ -14,12 +15,14 @@ export const path: IHemeraPath = {
 
 export interface IParams {
   botId: string;
+  userId: string;
 }
 
 export interface IResponse {
   deletedBotsCount: number;
   deletedEventsCount: number;
   deletedKeywordsCount: number;
+  deletedBotsFromProfile: number;
   isCbServerDeleted: boolean;
 }
 
@@ -40,7 +43,7 @@ interface IVkCbServersResponse {
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
-  const { botId } = params;
+  const { botId, userId } = params;
 
   botFather.killBot({ botId });
 
@@ -67,10 +70,13 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
     }));
   }
 
-  const [deletedBots, deletedEvents, deletedKeywords, deleteCbServerStatus] = await Promise.all([
+  const [
+    deletedBots, deletedEvents, deletedKeywords, deletedBotsFromProfile, deleteCbServerStatus,
+  ] = await Promise.all([
     db.bots.deleteOne({ botId }),
     events.deleteAllEvents({ botId }),
     keywords.deleteAllKeywords({ botId }),
+    users.deleteBot({ botId, userId }),
     ...deleteCallbackServer,
   ]);
 
@@ -78,6 +84,7 @@ export const handler = handlerDecorator(async (params: IParams): Promise<IRespon
     deletedBotsCount: deletedBots.n || 0,
     deletedEventsCount: deletedEvents.deletedCount,
     deletedKeywordsCount: deletedKeywords.deletedCount,
+    deletedBotsFromProfile: deletedBotsFromProfile.deletedCount,
     isCbServerDeleted: deleteCbServerStatus === 1,
   };
 });

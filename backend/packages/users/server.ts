@@ -5,6 +5,7 @@ import { path as registerPath, handler as registerHandler } from './hemeraRoutes
 import { path as authUserPath, handler as authUserHandler } from './hemeraRoutes/auth/authUser';
 import { path as authAccessBotPath, handler as authAccessBotHandler } from './hemeraRoutes/auth/authAccessBot';
 import { path as addBotPath, handler as addBotHandler } from './hemeraRoutes/addBot';
+import { path as deleteBotPath, handler as deleteBotHandler } from './hemeraRoutes/deleteBot';
 
 hemera.registerRoutes([{
   path: registerPath,
@@ -18,6 +19,9 @@ hemera.registerRoutes([{
 }, {
   path: addBotPath,
   handler: addBotHandler,
+}, {
+  path: deleteBotPath,
+  handler: deleteBotHandler,
 }]);
 
 mongoConnect(mongoose);

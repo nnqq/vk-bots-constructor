@@ -14,7 +14,7 @@ type IEditBot = {
   payload: IParamsBase;
 } & IQueryBotId;
 
-type IDeleteBot = IQueryBotId;
+type IDeleteBot = IQueryBotId & IAuth;
 
 export const controllers = {
   getGroups(req: IGetGroups) {
@@ -52,6 +52,13 @@ export const controllers = {
   },
 
   deleteBot(req: IDeleteBot) {
-    return bots.deleteBot(req.query);
+    const { userId } = req.auth.credentials;
+
+    const params = {
+      ...req.query,
+      userId,
+    };
+
+    return bots.deleteBot(params);
   },
 };

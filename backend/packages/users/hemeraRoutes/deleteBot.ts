@@ -4,7 +4,7 @@ import { db } from '../database/client';
 
 export const path: IHemeraPath = {
   topic: 'users',
-  cmd: 'addBot',
+  cmd: 'deleteBot',
 };
 
 export interface IParams {
@@ -13,19 +13,19 @@ export interface IParams {
 }
 
 export interface IResponse {
-  addedCount: number;
+  deletedCount: number;
 }
 
 export const handler = handlerDecorator(async (params: IParams): Promise<IResponse> => {
   const { userId, botId } = params;
 
   const { nModified } = await db.users.updateOne({ userId }, {
-    $push: {
+    $pull: {
       botIds: botId,
     },
   });
 
   return {
-    addedCount: nModified,
+    deletedCount: nModified,
   };
 });
