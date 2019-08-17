@@ -14,6 +14,8 @@ type IEditBot = {
   payload: IParamsBase;
 } & IQueryBotId;
 
+type IDeleteBot = IQueryBotId;
+
 export const controllers = {
   getGroups(req: IGetGroups) {
     const { vkUserAccessToken } = req.auth.credentials;
@@ -47,5 +49,9 @@ export const controllers = {
     };
 
     return bots.editBot(params);
+  },
+
+  deleteBot(req: IDeleteBot) {
+    return bots.deleteBot(req.query);
   },
 };

@@ -8,7 +8,7 @@ export const botsRoutes: ServerRoute[] = [
     path: '/bots/groups',
     options: {
       tags: ['api', 'bots'],
-      description: 'Get groups where current user have admin rules',
+      description: 'Get groups where current user have admin rules, and Bots if it created',
       handler: controllers.getGroups,
       auth: {
         strategy: 'user',
@@ -48,6 +48,24 @@ export const botsRoutes: ServerRoute[] = [
         },
         payload: {
           isEnabled: Joi.boolean().required(),
+        },
+      },
+    },
+  },
+
+  {
+    method: 'DELETE',
+    path: '/bots',
+    options: {
+      tags: ['api', 'bots'],
+      description: 'Delete Bot',
+      handler: controllers.deleteBot,
+      auth: {
+        strategy: 'accessBot',
+      },
+      validate: {
+        query: {
+          botId: Joi.string().required(),
         },
       },
     },
