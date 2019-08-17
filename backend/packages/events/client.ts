@@ -23,6 +23,12 @@ import {
   path as deleteEventPath,
 } from './hemeraRoutes/deleteEvent';
 
+import {
+  IParams as deleteAllEventsParams,
+  IResponse as deleteAllEventsResponse,
+  path as deleteAllEventsPath,
+} from './hemeraRoutes/deleteAllEvents';
+
 export const events = {
   createEvent(params: createEventParams): Promise<createEventResponse> {
     return hemera.send(createEventPath, params);
@@ -38,5 +44,9 @@ export const events = {
 
   deleteEvent(params: deleteEventParams): Promise<deleteEventResponse> {
     return hemera.send(deleteEventPath, params);
+  },
+
+  deleteAllEvents(params: deleteAllEventsParams): Promise<deleteAllEventsResponse> {
+    return hemera.send(deleteAllEventsPath, params);
   },
 };

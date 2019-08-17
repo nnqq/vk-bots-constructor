@@ -29,6 +29,12 @@ import {
   path as editBotPath,
 } from './hemeraRoutes/editBot';
 
+import {
+  IParams as deleteBotParams,
+  IResponse as deleteBotResponse,
+  path as deleteBotPath,
+} from './hemeraRoutes/deleteBot';
+
 export const bots = {
   getGroups(params: getGroupsParams): Promise<getGroupsResponse> {
     return hemera.send(getGroupsPath, params);
@@ -48,5 +54,9 @@ export const bots = {
 
   editBot(params: editBotParams): Promise<editBotResponse> {
     return hemera.send(editBotPath, params);
+  },
+
+  deleteBot(params: deleteBotParams): Promise<deleteBotResponse> {
+    return hemera.send(deleteBotPath, params);
   },
 };

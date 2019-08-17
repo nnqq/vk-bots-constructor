@@ -23,6 +23,12 @@ import {
   path as deleteKeywordPath,
 } from './hemeraRoutes/deleteKeyword';
 
+import {
+  IParams as deleteAllKeywordsParams,
+  IResponse as deleteAllKeywordsResponse,
+  path as deleteAllKeywordsPath,
+} from './hemeraRoutes/deleteAllKeywords';
+
 export const keywords = {
   createKeyword(params: createKeywordParams): Promise<createKeywordResponse> {
     return hemera.send(createKeywordPath, params);
@@ -38,5 +44,9 @@ export const keywords = {
 
   deleteKeyword(params: deleteKeywordParams): Promise<deleteKeywordResponse> {
     return hemera.send(deleteKeywordPath, params);
+  },
+
+  deleteAllKeywords(params: deleteAllKeywordsParams): Promise<deleteAllKeywordsResponse> {
+    return hemera.send(deleteAllKeywordsPath, params);
   },
 };

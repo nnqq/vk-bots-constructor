@@ -5,6 +5,7 @@ import { path as createKeywordPath, handler as createKeywordHandler } from './he
 import { path as getKeywordsPath, handler as getKeywordsHandler } from './hemeraRoutes/getKeywords';
 import { path as editKeywordPath, handler as editKeywordHandler } from './hemeraRoutes/editKeyword';
 import { path as deleteKeywordPath, handler as deleteKeywordHandler } from './hemeraRoutes/deleteKeyword';
+import { path as deleteAllKeywordsPath, handler as deleteAllKeywordsHandler } from './hemeraRoutes/deleteAllKeywords';
 
 hemera.registerRoutes([{
   path: createKeywordPath,
@@ -18,6 +19,9 @@ hemera.registerRoutes([{
 }, {
   path: deleteKeywordPath,
   handler: deleteKeywordHandler,
+}, {
+  path: deleteAllKeywordsPath,
+  handler: deleteAllKeywordsHandler,
 }]);
 
 mongoConnect(mongoose);

@@ -7,6 +7,7 @@ import { path as getGroupsPath, handler as getGroupsHandler } from './hemeraRout
 import { path as createBotPath, handler as createBotHandler } from './hemeraRoutes/createBot';
 import { path as getBotConfigPath, handler as getBotConfigHandler } from './hemeraRoutes/getBotConfig';
 import { path as refreshBotPath, handler as refreshBotHandler } from './hemeraRoutes/refreshBot';
+import { path as deleteBotPath, handler as deleteBotHandler } from './hemeraRoutes/deleteBot';
 
 hemera.registerRoutes([{
   path: getGroupsPath,
@@ -20,6 +21,9 @@ hemera.registerRoutes([{
 }, {
   path: refreshBotPath,
   handler: refreshBotHandler,
+}, {
+  path: deleteBotPath,
+  handler: deleteBotHandler,
 }]);
 
 (async () => {
