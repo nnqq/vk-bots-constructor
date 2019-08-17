@@ -84,10 +84,10 @@ class BotFather {
       });
     });
 
-    config.keywords.forEach(({
-      triggers, rule, caseSensitive, message,
-    }) => {
-      this.bots.get(botId).event('message_new', (ctx: any) => {
+    this.bots.get(botId).event('message_new', (ctx: any) => {
+      config.keywords.forEach(({
+        triggers, rule, caseSensitive, message,
+      }) => {
         const inWords: string[] = [];
 
         const trimmedInMessage = ctx.message.text.trim();

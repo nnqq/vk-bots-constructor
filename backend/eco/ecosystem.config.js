@@ -42,7 +42,7 @@ module.exports = {
         CLIENT_SECRET: 'LnocvOU3wXmCOCBRbXUl',
         REDIRECT_URI: 'http://127.0.0.1:4000/api/bots/create',
         MONGO_URI: 'mongodb://localhost:27017/vkbc-bots',
-        DOMAIN: 'https://20c2be5f.ngrok.io',
+        DOMAIN: 'https://337118a4.ngrok.io',
       },
       env_production: {
         NODE_ENV: 'production',
