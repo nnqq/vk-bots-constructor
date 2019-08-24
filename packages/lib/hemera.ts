@@ -15,10 +15,6 @@ interface IRoute {
 }
 
 class HemeraBase extends Hemera<any, any> {
-  constructor(transport: Object, config: Hemera.Config) {
-    super(transport, config);
-  }
-
   async send(path: IHemeraPath, params: object): Promise<any> {
     try {
       const props = {

@@ -1,8 +1,8 @@
+// @ts-ignore
+import VkBot from 'node-vk-bot-api';
 import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
-// @ts-ignore
-import VkBot from 'node-vk-bot-api';
 import { db } from '../database';
 import { IResponse as IGetBotConfigResponse } from '../hemeraRoutes/getBotConfig/interfaces';
 import { handler as getBotConfig } from '../hemeraRoutes/getBotConfig';
@@ -21,11 +21,7 @@ interface IKillBot {
 }
 
 class BotFather {
-  private readonly bots: any;
-
-  constructor() {
-    this.bots = new Map();
-  }
+  bots: Map<string, any> = new Map();
 
   public async initBotFather() {
     const app = new Koa();
@@ -36,7 +32,7 @@ class BotFather {
 
       if (this.bots.has(botId)) {
         ctx.status = 200;
-        this.bots.get(botId).webhookCallback(ctx, next);
+        this.bots.get(botId)!.webhookCallback(ctx, next);
       } else {
         ctx.status = 400;
         ctx.body = 'error';
