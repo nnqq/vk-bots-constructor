@@ -33,4 +33,7 @@ export const keywordSchema = new Schema({
   },
 }, {
   timestamps: true,
-});
+})
+  .index({
+    botId: 1,
+  });

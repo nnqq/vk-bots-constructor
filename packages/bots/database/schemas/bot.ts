@@ -28,4 +28,7 @@ export const botSchema = new Schema({
   },
 }, {
   timestamps: true,
-});
+})
+  .index({
+    botId: 1,
+  });

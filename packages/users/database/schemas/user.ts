@@ -21,4 +21,7 @@ export const userSchema = new Schema({
   botIds: [String],
 }, {
   timestamps: true,
-});
+})
+  .index({
+    token: 1,
+  });

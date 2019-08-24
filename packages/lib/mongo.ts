@@ -2,7 +2,7 @@ import { logger } from './logger';
 
 export const mongoConnect = async (connect: any) => {
   try {
-    const { MONGO_URI } = process.env;
+    const { MONGO_URI, NODE_ENV } = process.env;
 
     if (!MONGO_URI) {
       logger.fatal('Environment variable MONGO_URI is required');
@@ -10,6 +10,7 @@ export const mongoConnect = async (connect: any) => {
     }
 
     await connect(MONGO_URI, {
+      autoIndex: NODE_ENV === 'development',
       useNewUrlParser: true,
       useCreateIndex: true,
     });
