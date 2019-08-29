@@ -4,8 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
-    "start": "pm2 start eco/ecosystem.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "pm2 start eco/ecosystem.config.js"
   },
   "keywords": [],
   "author": "",

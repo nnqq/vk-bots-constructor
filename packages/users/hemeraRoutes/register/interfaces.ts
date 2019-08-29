@@ -1,4 +1,4 @@
-import { IHemeraPath } from '../../../lib/hemera';
+import { IHemeraPath } from '@nnqq/vk-bots-constructor-lib';
 
 export const path: IHemeraPath = {
   topic: 'users',

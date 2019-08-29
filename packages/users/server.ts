@@ -1,6 +1,5 @@
 import { connect } from 'mongoose';
-import { hemera } from '../lib/hemera';
-import { mongoConnect } from '../lib/mongo';
+import { hemera, mongoConnect } from '@nnqq/vk-bots-constructor-lib';
 
 import { handler as registerHandler } from './hemeraRoutes/register';
 import { path as registerPath } from './hemeraRoutes/register/interfaces';
@@ -17,6 +16,9 @@ import { path as addBotPath } from './hemeraRoutes/addBot/interfaces';
 import { handler as deleteBotHandler } from './hemeraRoutes/deleteBot';
 import { path as deleteBotPath } from './hemeraRoutes/deleteBot/interfaces';
 
+import { handler as getUserProjectionHandler } from './hemeraRoutes/getUserProjection';
+import { path as getUserProjectionPath } from './hemeraRoutes/getUserProjection/interfaces';
+
 hemera.registerRoutes([{
   path: registerPath,
   handler: registerHandler,
@@ -32,6 +34,9 @@ hemera.registerRoutes([{
 }, {
   path: deleteBotPath,
   handler: deleteBotHandler,
+}, {
+  path: getUserProjectionPath,
+  handler: getUserProjectionHandler,
 }]);
 
 mongoConnect(connect);

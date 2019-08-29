@@ -29,6 +29,12 @@ import {
   path as deleteBotPath,
 } from './hemeraRoutes/deleteBot/interfaces';
 
+import {
+  IParams as getUserProjectionParams,
+  IResponse as getUserProjectionResponse,
+  path as getUserProjectionPath,
+} from './hemeraRoutes/getUserProjection/interfaces';
+
 export const users = {
   register(params: registerParams): Promise<registerResponse> {
     return hemera.send(registerPath, params);
@@ -48,5 +54,9 @@ export const users = {
 
   deleteBot(params: deleteBotParams): Promise<deleteBotResponse> {
     return hemera.send(deleteBotPath, params);
+  },
+
+  getUserProjection(params: getUserProjectionParams): Promise<getUserProjectionResponse> {
+    return hemera.send(getUserProjectionPath, params);
   },
 };

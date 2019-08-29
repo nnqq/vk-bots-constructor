@@ -10,6 +10,7 @@ module.exports = {
       watch: true,
       env: {
         NODE_ENV: 'development',
+        NATS_URI: 'nats://localhost:4222',
       },
       env_production: {
         NODE_ENV: 'production',
@@ -26,6 +27,7 @@ module.exports = {
         CLIENT_SECRET: 'LnocvOU3wXmCOCBRbXUl',
         REDIRECT_URI: 'http://127.0.0.1:4000/api/users/register',
         MONGO_URI: 'mongodb://localhost:27017/vkbc-users',
+        NATS_URI: 'nats://localhost:4222',
       },
       env_production: {
         NODE_ENV: 'production',
@@ -43,6 +45,7 @@ module.exports = {
         REDIRECT_URI: 'http://127.0.0.1:4000/api/bots/create',
         MONGO_URI: 'mongodb://localhost:27017/vkbc-bots',
         DOMAIN: 'https://337118a4.ngrok.io',
+        NATS_URI: 'nats://localhost:4222',
       },
       env_production: {
         NODE_ENV: 'production',
@@ -56,6 +59,7 @@ module.exports = {
       env: {
         NODE_ENV: 'development',
         MONGO_URI: 'mongodb://localhost:27017/vkbc-events',
+        NATS_URI: 'nats://localhost:4222',
       },
       env_production: {
         NODE_ENV: 'production',
@@ -69,22 +73,7 @@ module.exports = {
       env: {
         NODE_ENV: 'development',
         MONGO_URI: 'mongodb://localhost:27017/vkbc-keywords',
-      },
-      env_production: {
-        NODE_ENV: 'production',
-      },
-    },
-
-    {
-      name: 'master-bot',
-      script: './packages/master-bot/server.ts',
-      watch: true,
-      env: {
-        NODE_ENV: 'development',
-        TOKEN: 'a936464200b93b68f05f1c43abe915dfabde606231fea46eccaa574b5ece3a071b53d2813ccba128da691',
-        SECRET: 'd5f2cc39d6d34308b3565ebd7bddb7fb',
-        URL_UUID: '968e3bd2-3178-4379-aaa6-3c29118d1651',
-        CONFIRMATION: '6661eea2',
+        NATS_URI: 'nats://localhost:4222',
       },
       env_production: {
         NODE_ENV: 'production',

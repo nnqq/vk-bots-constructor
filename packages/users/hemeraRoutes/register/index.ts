@@ -1,10 +1,10 @@
 import { stringify } from 'querystring';
 import fetch from 'node-fetch';
-import { handlerDecorator } from '../../../lib/decorators/handlerDecorator';
+import {
+  IOAuthError, isOAuthError, logger, handlerDecorator,
+} from '@nnqq/vk-bots-constructor-lib';
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '../../constants';
 import { db } from '../../database';
-import { IOAuthError, isOAuthError } from '../../../lib/helpers';
-import { logger } from '../../../lib/logger';
 import { IParams, IResponse } from './interfaces';
 
 interface IOAuthSuccess {
