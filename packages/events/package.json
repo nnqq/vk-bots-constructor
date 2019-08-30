@@ -5,12 +5,13 @@
   "main": "index.ts",
   "scripts": {
     "build": "../../node_modules/.bin/tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "buildContainer": "npm run build && docker build -t vkbc-events ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nnqq/vk-bots-constructor-lib": "^1.0.6",
     "mongoose": "^5.6.7",
     "uuid": "^3.3.2"
   }

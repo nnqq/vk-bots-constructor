@@ -1,4 +1,4 @@
-import { IHemeraPath } from '../../../lib/hemera';
+import { IHemeraPath } from '@nnqq/vk-bots-constructor-lib';
 import { IResponse as IEvents } from '../../../events/hemeraRoutes/getEvents/interfaces';
 import { IResponse as IKeywords } from '../../../keywords/hemeraRoutes/getKeywords/interfaces';
 

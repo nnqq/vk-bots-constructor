@@ -1,4 +1,4 @@
-import { handlerDecorator } from '../../../lib/decorators/handlerDecorator';
+import { handlerDecorator } from '@nnqq/vk-bots-constructor-lib';
 import { db } from '../../database';
 import { botFather } from '../../helpers/BotFather';
 import { handler as refreshBot } from '../refreshBot';

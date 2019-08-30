@@ -1,4 +1,4 @@
-import { IHemeraPath } from '../../../lib/hemera';
+import { IHemeraPath } from '@nnqq/vk-bots-constructor-lib';
 import { EnumTriggers } from '../../interfaces';
 
 export const path: IHemeraPath = {

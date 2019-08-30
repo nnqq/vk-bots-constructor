@@ -1,6 +1,5 @@
 import { connect } from 'mongoose';
-import { hemera } from '../lib/hemera';
-import { mongoConnect } from '../lib/mongo';
+import { hemera, mongoConnect } from '@nnqq/vk-bots-constructor-lib';
 
 import { handler as createKeywordHandler } from './hemeraRoutes/createKeyword';
 import { path as createKeywordPath } from './hemeraRoutes/createKeyword/interfaces';

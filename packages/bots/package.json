@@ -5,12 +5,13 @@
   "main": "index.ts",
   "scripts": {
     "build": "../../node_modules/.bin/tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "buildContainer": "npm run build && docker build -t vkbc-bots ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nnqq/vk-bots-constructor-lib": "^1.0.6",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",

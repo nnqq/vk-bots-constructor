@@ -1,8 +1,6 @@
 import { connect } from 'mongoose';
-import { hemera } from '../lib/hemera';
+import { hemera, logger, mongoConnect } from '@nnqq/vk-bots-constructor-lib';
 import { botFather } from './helpers/BotFather';
-import { logger } from '../lib/logger';
-import { mongoConnect } from '../lib/mongo';
 
 import { handler as getGroupsHandler } from './hemeraRoutes/getGroups';
 import { path as getGroupsPath } from './hemeraRoutes/getGroups/interfaces';

@@ -1,4 +1,4 @@
-import { IHemeraPath } from '../../../lib/hemera';
+import { IHemeraPath } from '@nnqq/vk-bots-constructor-lib';
 import { IEvent } from '../../database';
 
 export const path: IHemeraPath = {

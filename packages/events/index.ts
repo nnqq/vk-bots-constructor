@@ -1,4 +1,4 @@
-import { hemera } from '../lib/hemera';
+import { hemera } from '@nnqq/vk-bots-constructor-lib';
 
 import {
   IParams as createEventParams,

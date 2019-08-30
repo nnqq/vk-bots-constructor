@@ -1,4 +1,4 @@
-import { handlerDecorator } from '../../../lib/decorators/handlerDecorator';
+import { handlerDecorator } from '@nnqq/vk-bots-constructor-lib';
 import { db } from '../../database';
 import { bots } from '../../../bots';
 import { IParams, IResponse } from './interfaces';

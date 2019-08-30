@@ -1,4 +1,4 @@
-import { handlerDecorator } from '../../../lib/decorators/handlerDecorator';
+import { handlerDecorator } from '@nnqq/vk-bots-constructor-lib';
 import { IResponse as IKeywords } from '../../../keywords/hemeraRoutes/getKeywords/interfaces';
 import { events } from '../../../events';
 import { keywords } from '../../../keywords';

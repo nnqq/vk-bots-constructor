@@ -1,14 +1,13 @@
 import fetch from 'node-fetch';
 import { stringify } from 'querystring';
 import uuidv4 from 'uuid/v4';
-import { handlerDecorator } from '../../../lib/decorators/handlerDecorator';
-import { Vk } from '../../../lib/Vk';
+import {
+  handlerDecorator, logger, Vk, IOAuthError, isOAuthError,
+} from '@nnqq/vk-bots-constructor-lib';
 import {
   CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, DOMAIN,
 } from '../../constants';
-import { IOAuthError, isOAuthError } from '../../../lib/helpers';
 import { db } from '../../database';
-import { logger } from '../../../lib/logger';
 import { botFather } from '../../helpers/BotFather';
 import { users } from '../../../users';
 import { IParams, IResponse } from './interfaces';

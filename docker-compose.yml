@@ -1,0 +1,11 @@
+version: '3'
+services:
+  nats:
+    image: nats
+    ports:
+      - 4222:4222
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    #add volume if necessary

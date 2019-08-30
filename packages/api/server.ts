@@ -3,7 +3,7 @@ import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
 import HapiSwagger from 'hapi-swagger';
 import hapiAuthBearerToken from 'hapi-auth-bearer-token';
-import { logger } from '../lib/logger';
+import { logger } from '@nnqq/vk-bots-constructor-lib';
 import { authUser } from './auth/authUser';
 import { authAccessBot } from './auth/authAccessBot';
 import { usersRoutes } from './routes/users';
@@ -14,7 +14,7 @@ import { keywordsRoutes } from './routes/keywords';
 const init = async () => {
   const server = new Server({
     port: process.env.PORT || 4000,
-    host: process.env.HOST || '127.0.0.1',
+    host: process.env.HOST || '0.0.0.0',
   });
 
   const swaggerOptions = {
