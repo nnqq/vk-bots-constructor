@@ -4,7 +4,8 @@
   "description": "",
   "main": "",
   "scripts": {
-    "start": "pm2 start eco/ecosystem.config.js"
+    "start": "pm2 start eco/ecosystem.config.js",
+    "postinstall": "npm-recursive-install --skip-root && pm2 install typescript"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,8 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.1",
+    "pm2": "^3.5.1",
+    "recursive-install": "^1.4.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   }
