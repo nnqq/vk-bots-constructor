@@ -5,11 +5,12 @@
   "main": "index.ts",
   "scripts": {
     "build": "../../node_modules/.bin/tsc",
+    "test": "NATS_URI=nats://0.0.0.0:4222 ../../node_modules/.bin/jest --coverage --forceExit",
     "buildContainer": "npm run build && docker build -t vkbc-bots ."
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "nnqq",
+  "license": "MIT",
   "dependencies": {
     "@nnqq/vk-bots-constructor-lib": "^1.0.6",
     "koa": "^2.7.0",
@@ -19,5 +20,12 @@
     "node-fetch": "^2.6.0",
     "node-vk-bot-api": "^2.4.11",
     "uuid": "^3.3.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": [
+      "dist"
+    ],
+    "testEnvironment": "node"
   }
 }

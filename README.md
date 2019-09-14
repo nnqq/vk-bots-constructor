@@ -20,7 +20,13 @@ Install all dependencies and let PM2 to work with TypeScript
 npm i
 ```
 
-Start microservices with PM2
+## Run tests
+
+```
+npm test
+```
+
+## Start microservices with PM2
 
 ```
 npm start
